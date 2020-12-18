@@ -1,21 +1,9 @@
-"""
-Exceptions
-==========
-
-This is just a set of utilities to help take a deserialized dict and turn it
-into JSON. It handles things like datetime objects.
-"""
-
-
 class ValidationException(Exception):
-    """This exception keeps track of all the exceptions thrown during validations
+    """Exception that keeps all validation errors.
     """
     def __init__(self, errors):
-        super(ValidationException, self).__init__()
+        super().__init__()
         self.errors = errors
-
-    def __unicode__(self):
-        return self.__str__()
 
     def __str__(self):
         return str(self.errors)

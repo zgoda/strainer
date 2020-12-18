@@ -1,7 +1,8 @@
-import pytest
 import datetime
 
-from strainer import (validators, ValidationException)
+import pytest
+
+from strainer import ValidationException, validators
 
 
 def test_integer():
@@ -23,7 +24,7 @@ def test_string():
     validator = validators.string()
     assert validator('1') == '1'
     assert validator(1) == '1'
-    assert validator(None) == None
+    assert validator(None) is None
     assert validator([]) == []
     assert validator({}) == {}
 
@@ -63,8 +64,8 @@ def test_boolean():
     assert False is validator(0)
 
 
-def test_datetime():
-    validator = validators.datetime()
-    assert type(validator('1970-01-01')) is datetime.datetime
+def test_date():
+    validator = validators.date()
+    assert isinstance(validator('1970-01-01'), datetime.date)
     assert validator('') is None
     assert validator(None) is None

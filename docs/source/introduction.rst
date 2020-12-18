@@ -92,8 +92,8 @@ Since, we have already described our data, including what makes it valid, we can
       'title': 'A Title',
       'pub_date': '2016-11-10T10:15:00',
   }
-  print feed_item_serializer.deserialize(feed_item)
-  # {'pub_date': datetime.datetime(2016, 11, 10, 10, 15, tzinfo=<iso8601.Utc>), 'title': 'A Title'}
+  print(feed_item_serializer.deserialize(feed_item))
+  # {'pub_date': datetime.datetime(2016, 11, 10, 10, 15, tzinfo=<datetime.timezone.utc>), 'title': 'A Title'}
 
 
 At this point, we could take that deserialized input and instantiate a FeedItem oject. If we were using an ORM we could then persist that object to the database.
@@ -113,8 +113,8 @@ Data will not always be valid, and when it isn't valid we should be able to repo
 
   try:
     feed_item_serializer.deserialize(feed_item)
-  except ValidationException, e:
-    print e.errors
+  except ValidationException as e:
+    print(e.errors)
 
   # {'pub_date': ['This field is required']}
 

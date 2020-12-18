@@ -1,7 +1,7 @@
-from strainer import serializer, field, child, many
+from strainer import child, field, many, serializer
 
 
-def test_back_and_fourth():
+def test_back_and_forth():
     class Object1(object):
         c = 'b'
 

@@ -6,7 +6,7 @@ from os import path
 from setuptools import find_packages, setup
 
 requires = [
-  'iso8601>=0.1.11',
+  'aniso8601',
 ]
 
 

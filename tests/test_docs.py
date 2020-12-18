@@ -1,6 +1,6 @@
-import iso8601
 import datetime
-from strainer import serializer, field, child, formatters, validators
+
+from strainer import child, field, formatters, serializer, validators
 
 
 def test_docs():
@@ -11,9 +11,10 @@ def test_docs():
 
     album_schema = serializer(
       field('title', validators=[validators.required()]),
-      field('release_date',
-            validators=[validators.required(), validators.datetime()],
-            formatters=[formatters.format_datetime()]),
+      field(
+          'release_date', formatters=[formatters.format_datetime()],
+          validators=[validators.date(), validators.required()],
+        ),
       child('artist', serializer=artist_serializer, validators=[validators.required()])
     )
 
@@ -31,24 +32,26 @@ def test_docs():
     album = Album(
         artist=bowie,
         title='Hunky Dory',
-        release_date=datetime.datetime(1971, 12, 17)
+        release_date=datetime.date(1971, 12, 17)
     )
 
     assert album_schema.serialize(album) == {
-      'artist': {'name': 'David Bowie'},
-      'release_date': '1971-12-17T00:00:00',
+      'artist': {
+          'name': 'David Bowie'
+        },
+      'release_date': '1971-12-17',
       'title': 'Hunky Dory'
     }
     assert album_schema.deserialize(album_schema.serialize(album)) == {
       'artist': {'name': 'David Bowie'},
-      'release_date': datetime.datetime(1971, 12, 17, 0, 0, tzinfo=iso8601.UTC),
+      'release_date': datetime.date(1971, 12, 17),
       'title': 'Hunky Dory'
     }
-    input = album_schema.serialize(album)
-    del input['artist']
+    _input = album_schema.serialize(album)
+    del _input['artist']
     errors = None
     try:
-        album_schema.deserialize(input)
+        album_schema.deserialize(_input)
     except Exception as e:
         errors = e.errors
 

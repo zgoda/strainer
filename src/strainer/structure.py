@@ -15,8 +15,8 @@ from .context import check_context
 from .exceptions import ValidationException
 
 
-class Translator(object):
-    """Translator is an internal data structure that holds a  reference to
+class Translator():
+    """Translator is an internal data structure that holds a reference to
     a serialize and deserialize function. All structures return a translator.
     """
     def __init__(self, serialize, deserialize):
@@ -297,7 +297,7 @@ def many(source_field, target_field=None, serializer=None,
 
 
 def serializer(*fields):
-    """This function creates a serializer from a list fo fields"""
+    """Create serializer from list of fields."""
     def serialize(source, context=None):
         target = {}
 

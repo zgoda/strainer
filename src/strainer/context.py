@@ -7,12 +7,10 @@ things we want to tweak for the whole operation.
 
 This context object is a way to pass information into the whole
 process.
-
-
 """
 
 
-class SerializationContext(object):
+class SerializationContext():
     def __init__(self, *args, **kwargs):
         for key, val in kwargs.items():
             setattr(self, key, val)

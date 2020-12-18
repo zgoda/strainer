@@ -9,6 +9,7 @@ from .context import SerializationContext, check_context
 from .exceptions import ValidationException
 from .structure import child, dict_field, field, many, multiple_field, serializer
 
-__all__ = (serializer, many, child, field, dict_field,
-           ValidationException, formatters, validators, multiple_field,
-           SerializationContext, check_context)
+__all__ = (
+    serializer, many, child, field, dict_field, ValidationException, formatters,
+    validators, multiple_field, SerializationContext, check_context,
+)
