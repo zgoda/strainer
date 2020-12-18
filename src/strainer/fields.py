@@ -1,6 +1,6 @@
 from .formatters import format_date
-from .structures import field
-from .validators import required as required_validator, datetime
+from .structure import field
+from .validators import datetime, required as required_validator
 
 
 def date(source_field, target_field=None,

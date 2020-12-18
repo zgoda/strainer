@@ -9,7 +9,6 @@ import iso8601
 
 from .exceptions import ValidationException
 from functools import partial, wraps
-from six import text_type
 
 
 def export_validator(f):
@@ -46,12 +45,12 @@ def string(value, max_length=None, context=None):
         return value
 
     try:
-        value = text_type(value)
+        value = str(value)
     except (TypeError, ValueError):
         raise ValidationException('This field isn\'t a string')
 
     if max_length and len(value) > max_length:
-        raise ValidationException('This field is to long, max length is %s' % (max_length))
+        raise ValidationException(f'This field is to long, max length is {max_length}')
 
     return value
 
@@ -74,16 +73,17 @@ def boolean(value, context=None):
     try:
         return bool(value)
     except (TypeError, ValueError):
-        raise ValidationException('This field is suppose to be boolean')
+        raise ValidationException('This field is supposed to be boolean')
 
 
 @export_validator
 def datetime(value, default_tzinfo=iso8601.UTC, context=None):
-    """validates that a a field is an ISO 8601 string, and converts it to a datetime object."""
+    """Validates that a a field is an ISO 8601 string, and converts it to a
+    datetime object."""
     if not value:
         return
 
     try:
         return iso8601.parse_date(value, default_timezone=default_tzinfo)
     except iso8601.ParseError as e:
-        raise ValidationException('Invalid date: %s' % (e))
+        raise ValidationException(f'Invalid date: {e}')

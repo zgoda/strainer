@@ -5,15 +5,14 @@ Structure
 Use these structures to build up a serializers.
 
 Every structure returns an object that has two methods. `serialize`
-returns objects ready to be encoded into JSON, or other formats. `deserialize` will validate and
-return objects ready to be used internally, or it will raise a validation
-excepton.
-
-
+returns objects ready to be encoded into JSON, or other formats. `deserialize`
+will validate and return objects ready to be used internally, or it will raise
+a validation excepton.
 """
 import operator
+
+from .context import check_context
 from .exceptions import ValidationException
-from strainer.context import check_context
 
 
 class Translator(object):
@@ -64,9 +63,12 @@ def field(source_field, target_field=None, validators=None,
     :param str source_field: What attribute to get from a source object
     :param str target_field: What attribute to place the value on the target, optional.
                              If optional target is equal to source_field
-    :param list validators: A list of validators that will be applied during deserialization.
-    :param list formaters: A list of formaters that will be applied during serialization.
-    :param function attr_getter: Overrides the default method for getting the soure_field off of an object
+    :param list validators: A list of validators that will be applied during
+                            deserialization.
+    :param list formaters: A list of formaters that will be applied during
+                           serialization.
+    :param function attr_getter: Overrides the default method for getting the
+                                 source_field off of an object
     """
     target_field = target_field if target_field else source_field
     validators = validators if validators else []
