@@ -11,7 +11,7 @@ def _date_time_field(
         'time': validators.time,
         'datetime': validators.datetime,
     }
-    field_validators = [type_validators[typename]]
+    field_validators = [type_validators[typename]()]
     if required:
         field_validators.insert(0, validators.required())
     formatters = [format_datetime()]

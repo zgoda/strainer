@@ -1,6 +1,6 @@
 import datetime
 
-from strainer import child, field, formatters, serializer, validators
+from strainer import child, field, fields, serializer, validators
 
 
 def test_docs():
@@ -11,10 +11,7 @@ def test_docs():
 
     album_schema = serializer(
       field('title', validators=[validators.required()]),
-      field(
-          'release_date', formatters=[formatters.format_datetime()],
-          validators=[validators.date(), validators.required()],
-        ),
+      fields.date('release_date', required=True),
       child('artist', serializer=artist_serializer, validators=[validators.required()])
     )
 
