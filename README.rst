@@ -1,18 +1,11 @@
 Strainer: Fast Functional Serializers
 =====================================
 
-.. image:: https://img.shields.io/pypi/v/pystrainer.svg
-    :target: https://pypi.org/project/pystrainer/
-
-.. image:: https://readthedocs.org/projects/strainer/badge/?version=latest
-    :target: https://strainer.readthedocs.io/en/latest/
-
-.. image:: https://travis-ci.org/voidfiles/strainer.svg?branch=master
-    :target: https://travis-ci.org/voidfiles/strainer
-
 Strainer is a different take on serialization and validation in python. It utilizes a functional style over classes.
 
-Strainer officially supports Python 2.7 & 3.5–3.8, and runs great on PyPy.
+Strainer officially supports Python 3.6 and newer, and runs great on PyPy.
+
+This is a fork of original Alex Kessinger `pystrainer <https://github.com/voidfiles/strainer>`_ library brought to 2020 reality.
 
 Features
 --------
@@ -84,11 +77,11 @@ The example has been borrowed from `Marshmallow <https://marshmallow.readthedocs
 Installation
 ------------
 
-To install Strainer, simply:
+To install Strainer-2020, simply:
 
 .. code-block:: bash
 
-    $ pip install pystrainer
+    $ pip install strainer-2020
     ✨🍰✨
 
 Satisfaction, guaranteed.

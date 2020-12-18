@@ -1,0 +1,19 @@
+-r requirements.doc.txt
+-r requirements.test.txt
+
+pip
+setuptools
+wheel
+
+ipython
+ipdb
+flake8
+flake8-bugbear
+flake8-builtins
+flake8-comprehensions
+flake8-pytest-style
+pep8-naming
+dlint
+rstcheck
+rope
+isort

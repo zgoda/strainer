@@ -3,6 +3,11 @@
 Release History
 ---------------
 
+1.4.0 (2020)
+++++++++++++
+
+- infrastructure refresh
+
 
 1.0.1
 ++++++++++
