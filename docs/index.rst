@@ -10,27 +10,28 @@ A Strainer Example
 .. code-block:: python
 
     import datetime
-    from strainer import (serializer, field, child,
-                          formatters, validators,
-                          ValidationException)
+    from strainer import (
+        serializer, field, child, formatters, validators, ValidationException
+    )
 
     artist_serializer = serializer(
-      field('name', validators=[validators.required()])
+        field('name', validators=[validators.required()])
     )
 
     album_schema = serializer(
-      field('title', validators=[validators.required()]),
-      field('release_date',
-            validators=[validators.required(), validators.datetime()],
-            formatters=[formatters.format_datetime()]),
-      child('artist', serializer=artist_serializer, validators=[validators.required()])
+        field('title', validators=[validators.required()]),
+        field(
+            'release_date', validators=[validators.required(), validators.datetime()],
+            formatters=[formatters.format_datetime()],
+        ),
+        child('artist', serializer=artist_serializer, validators=[validators.required()])
     )
 
-    class Artist(object):
+    class Artist():
         def __init__(self, name):
             self.name = name
 
-    class Album(object):
+    class Album():
         def __init__(self, title, release_date, artist):
             self.title = title
             self.release_date = release_date
