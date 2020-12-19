@@ -1,11 +1,11 @@
-Strainer: Fast Functional Serializers
-=====================================
+Strainer-2020: Fast Functional Serializers
+==========================================
 
-Strainer is a different take on serialization and validation in python. It utilizes a functional style over classes.
+Strainer-2020 is a different take on serialization and validation in python. It utilizes a functional style over classes.
 
-Strainer officially supports Python 3.6 and newer, and runs great on PyPy.
+Strainer-2020 officially supports Python 3.6 and newer, and runs great on PyPy.
 
-This is a fork of original Alex Kessinger `pystrainer <https://github.com/voidfiles/strainer>`_ library brought to 2020 reality.
+This is a fork of original Alex Kessinger `pystrainer <https://github.com/voidfiles/strainer>`_ library with improvements that changed both operation and usage paradigm.
 
 Features
 --------
@@ -16,6 +16,14 @@ Features
 - Data Validation
 - `Speed <https://voidfiles.github.io/python-serialization-benchmark/>`_
 
+Changes
+-------
+
+- Serialization is done by data serializers defined for fields
+- Validators perform data validation only
+- basic field types have simplified interface functions tthat wrap generic ``field()`` function
+- datetime/time serialization and deserialization preserves timezone information or lack of it; naive datetimes/times are serialized as naive and then deserialized as naive too
+
 Serialization Example
 ---------------------
 
@@ -24,18 +32,16 @@ Serialization Example
     import datetime
     from strainer import (serializer, field, child,
                           formatters, validators,
-                          ValidationException)
+                          ValidationException, fields)
 
     artist_serializer = serializer(
-      field('name', validators=[validators.required()])
+        field('name', validators=[validators.required()])
     )
 
     album_schema = serializer(
-      field('title', validators=[validators.required()]),
-      field('release_date',
-            validators=[validators.required(), validators.datetime()],
-            formatters=[formatters.format_datetime()]),
-      child('artist', serializer=artist_serializer, validators=[validators.required()])
+        field('title', validators=[validators.required()]),
+        fields.date('release_date', required=True),
+        child('artist', serializer=artist_serializer, validators=[validators.required()])
     )
 
     class Artist(object):
@@ -61,11 +67,11 @@ Now we can serialize, deserialize, and validate data
 
     >>> album_schema.serialize(album)
     {'artist': {'name': 'David Bowie'},
-     'release_date': '1971-12-17T00:00:00',
+     'release_date': '1971-12-17',
      'title': 'Hunky Dory'}
     >>> album_schema.deserialize(album_schema.serialize(album))
     {'artist': {'name': 'David Bowie'},
-     'release_date': datetime.datetime(1971, 12, 17, 0, 0, tzinfo=<iso8601.Utc>),
+     'release_date': datetime.date(1971, 12, 17),
      'title': 'Hunky Dory'}
     >>> input = album_schema.serialize(album)
     >>> del input['artist']

@@ -65,8 +65,8 @@ def field(source_field, target_field=None, validators=None,
                              If optional target is equal to source_field
     :param list validators: A list of validators that will be applied during
                             deserialization.
-    :param list formaters: A list of formaters that will be applied during
-                           serialization.
+    :param list formatters: A list of formaters that will be applied during
+                            serialization.
     :param function attr_getter: Overrides the default method for getting the
                                  source_field off of an object
     """

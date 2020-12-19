@@ -1,9 +1,9 @@
-Strainer: Fast Functional Serializers
-=====================================
+Strainer-2020: Fast Functional Serializers
+==========================================
 
-Strainer is a different take on object serialization and validation in python.
+Strainer-2020 is a different take on object serialization and validation in python.
 
-It utilizes a functional style over classes.
+It utilizes functional style over classes and instead of schema definition it uses pure functions to build serialization mechanisms.
 
 A Strainer Example
 
@@ -11,7 +11,7 @@ A Strainer Example
 
     import datetime
     from strainer import (
-        serializer, field, child, formatters, validators, ValidationException
+        serializer, field, child, formatters, validators, ValidationException, fields
     )
 
     artist_serializer = serializer(
@@ -20,10 +20,7 @@ A Strainer Example
 
     album_schema = serializer(
         field('title', validators=[validators.required()]),
-        field(
-            'release_date', validators=[validators.required(), validators.datetime()],
-            formatters=[formatters.format_datetime()],
-        ),
+        fields.date('release_date', required=True),
         child('artist', serializer=artist_serializer, validators=[validators.required()])
     )
 
@@ -41,7 +38,7 @@ A Strainer Example
     album = Album(
         artist=bowie,
         title='Hunky Dory',
-        release_date=datetime.datetime(1971, 12, 17)
+        release_date=datetime.date(1971, 12, 17)
     )
 
 Given that we can now serialize, deserialize, and validate data
@@ -50,27 +47,25 @@ Given that we can now serialize, deserialize, and validate data
 
     >>> album_schema.serialize(album)
     {'artist': {'name': 'David Bowie'},
-     'release_date': '1971-12-17T00:00:00',
+     'release_date': '1971-12-17',
      'title': 'Hunky Dory'}
     >>> album_schema.deserialize(album_schema.serialize(album))
     {'artist': {'name': 'David Bowie'},
-     'release_date': datetime.datetime(1971, 12, 17, 0, 0, tzinfo=<iso8601.Utc>),
+     'release_date': datetime.date(1971, 12, 17),
      'title': 'Hunky Dory'}
     >>> input = album_schema.serialize(album)
     >>> del input['artist']
     >>> album_schema.deserialize(input)
     ValidationException: {'artist': ['This field is required']}
 
-the example has been borrowed from `Marshmallow <https://marshmallow.readthedocs.io/en/latest/>`_
+The example has been borrowed from `Marshmallow <https://marshmallow.readthedocs.io/en/latest/>`_
 
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   introduction
-   structure
-   validators
-   formatters
-   api
-
-
+    introduction
+    structure
+    validators
+    formatters
+    api

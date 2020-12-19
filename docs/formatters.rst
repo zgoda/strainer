@@ -1,5 +1,3 @@
-.. _formatters:
-
 Formatters
 ==========
 
@@ -36,7 +34,7 @@ A formatter returns a function that will be used to format a value before serial
       return _my_formatter
 
   my_formatter = custom_formatter()
-  print my_formatter('A clown')
+  print(my_formatter('A clown'))
   # A clown is silly
 
 In practice it's probably better to use the export_formatter decorator. It's as simple way to create a formatter.

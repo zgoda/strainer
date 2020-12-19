@@ -21,8 +21,7 @@ def clamp_to_interval(value, bounds):
 
 @export_validator
 def integer(value, bounds=None, context=None):
-    """converts a value to integer, applying optional bounds
-    """
+    """Converts a value to integer, applying optional bounds."""
     try:
         value = int(value)
         if bounds:
@@ -34,7 +33,7 @@ def integer(value, bounds=None, context=None):
 
 @export_validator
 def string(value, max_length=None, context=None):
-    """converts a value into a string, optionally with a max length"""
+    """Converts a value into a string, optionally with a max length"""
     if not value:
         return value
 
