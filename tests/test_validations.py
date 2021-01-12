@@ -27,6 +27,7 @@ def nil_validator(value, context=None):
 def nil_validator_2(value, context=None):
     raise ValidationException('Failed, again')
 
+
 a_field = field('a', validators=[valid_validator, nil_validator, nil_validator_2])
 b_field = field('b', validators=[valid_validator, nil_validator])
 c_field = field('c', validators=[valid_validator])
@@ -60,14 +61,11 @@ def test_field_validation():
     from_json = {'a': 1}
     target = {}
 
-    with pytest.raises(ValidationException):
+    with pytest.raises(ValidationException) as exc_info:
         a_field.deserialize(from_json, target)
 
-    try:
-        a_field.deserialize(from_json, target)
-    except Exception as e:
-        assert hasattr(e, 'errors')
-        assert e.errors == {'a': ['Failed', 'Failed, again']}
+    assert hasattr(exc_info.value, 'errors')
+    assert exc_info.value.errors == {'a': ['Failed', 'Failed, again']}
 
 
 def test_serializer_validation():
@@ -75,19 +73,16 @@ def test_serializer_validation():
 
     target = None
 
-    with pytest.raises(ValidationException):
+    with pytest.raises(ValidationException) as exc_info:
         target = a_serializer.deserialize(from_json)
 
-    assert target is None
+    assert hasattr(exc_info.value, 'errors')
+    assert exc_info.value.errors == {
+        'a': ['Failed', 'Failed, again'],
+        'b': ['Failed']
+    }
 
-    try:
-        a_serializer.deserialize(from_json)
-    except Exception as e:
-        assert hasattr(e, 'errors')
-        assert e.errors == {
-            'a': ['Failed', 'Failed, again'],
-            'b': ['Failed']
-        }
+    assert target is None
 
 
 def test_serializer_with_child_validation():
@@ -101,21 +96,18 @@ def test_serializer_with_child_validation():
 
     target = None
 
-    with pytest.raises(ValidationException):
+    with pytest.raises(ValidationException) as exc_info:
         target = a_serializer_with_child.deserialize(from_json)
 
-    assert target is None
-
-    try:
-        a_serializer_with_child.deserialize(from_json)
-    except Exception as e:
-        assert hasattr(e, 'errors')
-        assert e.errors == {
-            'a': ['Failed', 'Failed, again'],
-            'd': {
-                'd2': ['Failed']
-            }
+    assert hasattr(exc_info.value, 'errors')
+    assert exc_info.value.errors == {
+        'a': ['Failed', 'Failed, again'],
+        'd': {
+            'd2': ['Failed']
         }
+    }
+
+    assert target is None
 
 
 def test_serializer_with_many_validation():
@@ -132,26 +124,23 @@ def test_serializer_with_many_validation():
 
     target = None
 
-    with pytest.raises(ValidationException):
+    with pytest.raises(ValidationException) as exc_info:
         target = a_e_serializer.deserialize(from_json)
 
-    assert target is None
-
-    try:
-        a_e_serializer.deserialize(from_json)
-    except Exception as e:
-        assert hasattr(e, 'errors')
-        assert e.errors == {
-            'a': ['Failed', 'Failed, again'],
-            'e': {
-                0: {
-                    'd2': ['Failed']
-                },
-                1: {
-                    'd2': ['Failed']
-                }
+    assert hasattr(exc_info.value, 'errors')
+    assert exc_info.value.errors == {
+        'a': ['Failed', 'Failed, again'],
+        'e': {
+            0: {
+                'd2': ['Failed']
+            },
+            1: {
+                'd2': ['Failed']
             }
         }
+    }
+
+    assert target is None
 
 
 def test_validation_strings():
@@ -170,10 +159,10 @@ def test_validation_strings():
       'f': [],
     }
 
-    try:
+    with pytest.raises(ValidationException) as exc_info:
         a_serializer.deserialize(from_json)
-    except Exception as e:
-        assert hasattr(e, 'errors')
-        assert e.errors == {
-            'f': ['This field is required'],
-        }
+
+    assert hasattr(exc_info.value, 'errors')
+    assert exc_info.value.errors == {
+        'f': ['This field is required'],
+    }

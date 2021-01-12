@@ -69,3 +69,17 @@ def test_date():
     assert isinstance(validator('1970-01-01'), datetime.date)
     assert validator('') is None
     assert validator(None) is None
+
+
+def test_datetime():
+    validator = validators.datetime()
+    assert isinstance(validator('1970-01-01T14:35:00'), datetime.datetime)
+    assert validator('') is None
+    assert validator(None) is None
+
+
+def test_time():
+    validator = validators.time()
+    assert isinstance(validator('14:35:00'), datetime.time)
+    assert validator('') is None
+    assert validator(None) is None

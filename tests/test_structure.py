@@ -1,12 +1,11 @@
 import pytest
 
-from strainer import (field, dict_field, multiple_field,
-                      serializer, child, many, validators,
-                      ValidationException)
-
-from strainer.structure import emptyish, run_validators
+from strainer import (
+    ValidationException, child, dict_field, field, many, multiple_field, serializer,
+    validators,
+)
 from strainer.context import SerializationContext
-
+from strainer.structure import emptyish, run_validators
 
 serialization_context = SerializationContext(drop_empty=True)
 
@@ -154,7 +153,7 @@ def test_serializer():
     assert {'a': 1} == target
 
     from_json = {'a': 1}
-    target == a_serializer.deserialize(from_json)
+    target = a_serializer.deserialize(from_json)
 
     assert {'a': 1} == target
 
@@ -321,8 +320,10 @@ def test_full_validation():
 
 
 def test_multiple_field_full_validation():
-    serializer = multiple_field('e', validators=[validators.string(max_length=1)],
-                                full_validators=[raise_validator])
+    serializer = multiple_field(
+        'e', validators=[validators.string(max_length=1)],
+        full_validators=[raise_validator],
+    )
     test_obj = {
       'e': ['a', 'bb']
     }
@@ -333,15 +334,21 @@ def test_multiple_field_full_validation():
     except ValidationException as e:
         errors = e.errors
 
-    assert errors == {'e': {1: ['This field is to long, max length is 1'], '_full_errors': ['Invalid']}}
+    assert errors == {
+        'e': {
+            1: ['This field is to long, max length is 1'],
+            '_full_errors': ['Invalid']
+        }
+    }
 
 
 def test_many_full_validation():
     size_serializer = serializer(
         dict_field('size')
     )
-    test_serializer = many('e', serializer=size_serializer,
-                           validators=[raise_validator])
+    test_serializer = many(
+        'e', serializer=size_serializer, validators=[raise_validator]
+    )
     test_obj = {
       'e': [{"size": 'a'}, {"size": 'bb'}]
     }
