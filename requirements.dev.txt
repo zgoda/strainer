@@ -17,4 +17,4 @@ dlint
 rstcheck
 rope
 isort
-jedi<0.18
+jedi<0.19
