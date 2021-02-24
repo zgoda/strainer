@@ -7,6 +7,9 @@ Release History
 ++++++++++++
 
 - infrastructure refresh
+- separate operation of validators and serializers
+- change to datetime serialization that preserves timezone information or lack of it
+- drop Python 2 support, limit support to modern Python 3 only
 
 
 1.0.1

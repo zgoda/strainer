@@ -5,22 +5,21 @@ Strainer-2020 is a different take on serialization and validation in python. It 
 
 Strainer-2020 officially supports Python 3.6 and newer, and runs great on PyPy.
 
-This is a fork of original Alex Kessinger `pystrainer <https://github.com/voidfiles/strainer>`_ library with improvements that changed both operation and usage paradigm.
+This is a fork of original Alex Kessinger `pystrainer <https://github.com/voidfiles/strainer>`_ library with improvements that changed operation but not the usage paradigm. I'm trying to keep his commitment to efficiency.
 
 Features
 --------
 
 - Functional
 - Complex Python object serialization
-- Data de-serialization
-- Data Validation
-- `Speed <https://voidfiles.github.io/python-serialization-benchmark/>`_
+- Data deserialization into simple Python structures
+- Data validation
 
 Changes
 -------
 
-- Serialization is done by data serializers defined for fields
-- Validators perform data validation only
+- serialization is done by data serializers defined for fields
+- validators perform data validation only
 - basic field types have simplified interface functions tthat wrap generic ``field()`` function
 - datetime/time serialization and deserialization preserves timezone information or lack of it; naive datetimes/times are serialized as naive and then deserialized as naive too
 

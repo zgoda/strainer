@@ -1,6 +1,7 @@
 __title__ = 'strainer'
 __version__ = '1.4.0'
 __author__ = 'Alex Kessinger'
+__maintainer__ = 'Jarek Zgoda'
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2016 Alex Kessiger'
 
